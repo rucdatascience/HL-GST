@@ -75,7 +75,7 @@ void generate_L_PPR() {
 
 			hop_constrained_two_hop_labels_generation(input_graph_Mock, mm);
 
-			string path = "HL_dummy_data//";
+			string path = "HL-GST_data//";
 			binary_save_PPR(path + data_name + "_HOP_PPR_2M.bin", mm.PPR);
 			binary_save_vector_of_vectors(path + data_name + "_HOP_L_2M.bin", mm.L);
 		}
@@ -91,7 +91,7 @@ void generate_L_PPR() {
 
 			hop_constrained_two_hop_labels_generation(input_graph_Mock, mm);
 
-			string path = "HL_dummy_data//";
+			string path = "HL-GST_data//";
 			binary_save_PPR(path + data_name + "_HOP_PPR.bin", mm.PPR);
 			binary_save_vector_of_vectors(path + data_name + "_HOP_L.bin", mm.L);
 		}
@@ -188,7 +188,7 @@ void exp_element_HOP(string data_name, string file_name, int thread_num, int ite
 	vector<int> new_is_mock;
 	binary_read_vector(global_path + data_name + "//exp_" + data_name + "_new_is_mock_" + ec_type_name + ".binary", new_is_mock);
 	is_mock = new_is_mock; // update is_mock
-	string path = "HL_dummy_data//";
+	string path = "HL-GST_data//";
 	hop_constrained_case_info mm_initial_2M, mm_initial;
 	binary_read_PPR(path + data_name + "_HOP_PPR_2M.bin", mm_initial_2M.PPR);
 	binary_read_vector_of_vectors(path + data_name + "_HOP_L_2M.bin", mm_initial_2M.L);
