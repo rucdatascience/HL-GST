@@ -40,7 +40,7 @@ boost::random::mt19937 boost_random_time_seed{ static_cast<std::uint32_t>(std::t
 #include <text_mining/print_items.h>
 #include <text_mining/binary_save_read_vector.h>
 
-string global_path = "HL_dummy_data//";
+string global_path = "HL-GST_data//";
 
 /*exp*/
 

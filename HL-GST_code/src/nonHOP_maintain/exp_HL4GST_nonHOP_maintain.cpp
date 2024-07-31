@@ -40,7 +40,7 @@ boost::random::mt19937 boost_random_time_seed{ static_cast<std::uint32_t>(std::t
 #include <nonHOP_maintain/nonHOP_WeightDecrease2021_batch.h>
 #include <nonHOP_maintain/nonHOP_WeightIncrease2021_batch.h>
 
-string global_path = "HL_dummy_data//";
+string global_path = "HL-GST_data//";
 
 
 /*generate_L_PPR*/
