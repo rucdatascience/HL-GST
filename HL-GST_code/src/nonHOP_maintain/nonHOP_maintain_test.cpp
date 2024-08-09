@@ -269,8 +269,8 @@ void graph_change_and_label_maintenance(graph_v_of_v<int>& instance_graph, two_h
 
 
             /*maintain labels*/
-			//nonHOP_WeightDecreaseMaintenance_improv_batch(instance_graph, mm, selected_edge_vec, new_edge_weight_vec, pool_dynamic, results_dynamic);
-			nonHOP_WeightDecrease2021_batch(instance_graph, mm, selected_edge_vec, new_edge_weight_vec, pool_dynamic, results_dynamic);
+			nonHOP_WeightDecreaseMaintenance_improv_batch(instance_graph, mm, selected_edge_vec, new_edge_weight_vec, pool_dynamic, results_dynamic);
+			//nonHOP_WeightDecrease2021_batch(instance_graph, mm, selected_edge_vec, new_edge_weight_vec, pool_dynamic, results_dynamic);
 			if(debug){
 				std::cout<<"\nafter maintain"<<std::endl;
 				mm.print_L();
@@ -292,7 +292,7 @@ void test_PLL() {
 	int V = 1000, E = 5000, group_num = 10, thread_num = 10;
 	int ec_min = 1, ec_max = 20;
 
-	int weightIncrease_time = 0, weightDecrease_time = 20;
+	int weightIncrease_time = 50, weightDecrease_time = 50;
 	double weightChange_ratio = 0.2;
 	int batch_size = 100;
 

@@ -246,10 +246,12 @@ void SPREAD3_batch(graph_v_of_v<int>& instance_graph, vector<vector<two_hop_labe
 				if (dx < d_old) {
 					insert_sorted_two_hop_label((*L)[x], v, dx);
 				}
-				else {
-					continue;
-					//dx = d_old;
-				}
+				// else {
+				// 	continue;
+				// 	//dx = d_old;
+				// 	cout<< "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"<<endl;
+				// 	getchar();
+				// }
 				mtx_595[x].unlock();
 
 				for (auto nei : instance_graph[x]) {

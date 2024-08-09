@@ -143,10 +143,11 @@ void DIFFUSE_batch(graph_v_of_v<int>& instance_graph, vector<vector<two_hop_labe
 				if(d_old>dx){
 					insert_sorted_two_hop_label((*L)[x], v, dx);
 				}
-				else{
-					continue;
-					//dx=d_old;
-				}
+				// else{
+				// 	continue;
+				// 	cout<< "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"<<endl;
+				// 	getchar();
+				// }
 				mtx_595[x].unlock();
 
 				for (auto& nei : instance_graph[x]) {
