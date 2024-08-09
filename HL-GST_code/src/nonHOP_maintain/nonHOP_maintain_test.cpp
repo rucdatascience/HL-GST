@@ -288,7 +288,7 @@ void graph_change_and_label_maintenance(graph_v_of_v<int>& instance_graph, two_h
 void test_PLL() {
 
 	/*parameters*/
-	int iteration_graph_times = 1e2, iteration_source_times = 10, iteration_terminal_times = 10;
+	int iteration_graph_times = 2e2, iteration_source_times = 10, iteration_terminal_times = 10;
 	int V = 1000, E = 5000, group_num = 10, thread_num = 10;
 	int ec_min = 1, ec_max = 20;
 

@@ -241,17 +241,11 @@ void SPREAD3_batch(graph_v_of_v<int>& instance_graph, vector<vector<two_hop_labe
 				Q_VALUE[x] = MAX_VALUE;
 
 				mtx_595[x].lock();
-				weightTYPE d_old = search_sorted_two_hop_label((*L)[x], v);
-				// std::cout<<"insert: "<<x<<" "<<v<<" "<<dx<<" "<<d_old<<"\n";
-				if (dx < d_old) {
-					insert_sorted_two_hop_label((*L)[x], v, dx);
-				}
-				// else {
-				// 	continue;
-				// 	//dx = d_old;
-				// 	cout<< "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"<<endl;
-				// 	getchar();
+				// weightTYPE d_old = search_sorted_two_hop_label((*L)[x], v);
+				// if (dx < d_old) {
+				// 	insert_sorted_two_hop_label((*L)[x], v, dx);
 				// }
+				insert_sorted_two_hop_label((*L)[x], v, dx);
 				mtx_595[x].unlock();
 
 				for (auto nei : instance_graph[x]) {
