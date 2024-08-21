@@ -1,4 +1,4 @@
-# HL-GST
+# Generation and Maintenance of 2-hop Labels for Accelerating Group Steiner Tree Search on Graphs
 
 The introduction of these files are as follows. 
 
