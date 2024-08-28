@@ -389,9 +389,215 @@ void test_PLL() {
 
 
 
+
+/* show Label and PPR of the example before maintenance with 2M pruning*/
+void example_before_maintain_with_2M_prune(){
+	/*parameters*/
+	two_hop_case_info mm;
+	mm.max_labal_byte_size = 6e9;
+	mm.max_run_time_seconds = 1e2;
+	mm.use_2M_prune = 1;
+	mm.use_rank_prune = 1;
+	mm.use_canonical_repair = 1;
+	mm.thread_num = 1;
+
+	/*input and output; below is for generating random new graph, or read saved graph*/
+	graph_v_of_v<int> instance_graph;
+	instance_graph.txt_read("simple_iterative_tests.txt"); // please copy this file to the compiling path
+	//binary_read_vector("simple_iterative_tests_is_mock.txt", is_mock);
+
+	PLL(instance_graph, mm);
+	// instance_graph.print();
+	mm.print_L();
+	mm.print_PPR();
+
+	mm.clear_labels();
+}
+
+/* show Label and PPR of the example before maintenance without 2M pruning*/
+void example_before_maintain_without_2M_prune()
+{
+	/*parameters*/
+	two_hop_case_info mm;
+	mm.max_labal_byte_size = 6e9;
+	mm.max_run_time_seconds = 1e2;
+	mm.use_2M_prune = 0;
+	mm.use_rank_prune = 1;
+	mm.use_canonical_repair = 1;
+	mm.thread_num = 1;
+
+	/*input and output; below is for generating random new graph, or read saved graph*/
+	graph_v_of_v<int> instance_graph;
+	instance_graph.txt_read("simple_iterative_tests.txt"); // please copy this file to the compiling path
+	//binary_read_vector("simple_iterative_tests_is_mock.txt", is_mock);
+
+	PLL(instance_graph, mm);
+	// instance_graph.print();
+	mm.print_L();
+	mm.print_PPR();
+
+	mm.clear_labels();
+}
+
+/* show Label and PPR of the example after edges deletion*/
+void example_after_batch_deletion()
+{
+	/*parameters*/
+	int V = 6, E = 8, group_num = 4;
+	int batch_size = 2;
+
+	/*reduction method selection*/
+	two_hop_case_info mm;
+	mm.max_labal_byte_size = 6e9;
+	mm.max_run_time_seconds = 1e2;
+	mm.use_2M_prune = 1;
+	mm.use_rank_prune = 1;
+	mm.use_canonical_repair = 1;
+	mm.thread_num = 1;
+
+	/*input and output; below is for generating random new graph, or read saved graph*/
+	graph_v_of_v<int> instance_graph;
+	instance_graph.txt_read("simple_iterative_tests.txt");
+	//binary_read_vector("simple_iterative_tests_is_mock.txt", is_mock);
+
+	PLL(instance_graph, mm);
+	initialize_global_values_dynamic(V + group_num, 1);
+
+	vector<pair<int, int>> selected_edge_vec;
+	vector<int> selected_edge_weight_vec;
+	vector<int> new_edge_weight_vec;
+
+	std::cout << "\nbefore maintain" << std::endl;
+	mm.print_L();
+	mm.print_PPR();
+	std::cout << "\nweight change:" << std::endl;
+
+	int ct = 0;
+	ThreadPool pool_dynamic(1);
+	std::vector<std::future<int>> results_dynamic;
+	while (ct < batch_size)
+	{
+		int v1 = 3;
+		int v2 = 4;
+		if (ct == 1)
+		{
+			v1 = 5;
+			v2 = 6;
+		}
+
+		if (instance_graph[v1].size() > 0)
+		{
+			int wt;
+			for (auto &it : instance_graph[v1])
+			{
+				if (it.first == v2)
+					wt = it.second;
+			}
+			selected_edge_vec.push_back({v1, v2});
+			selected_edge_weight_vec.push_back(wt);
+			new_edge_weight_vec.push_back(MAX_VALUE);
+
+			std::cout << v1 << " " << v2 << " : " << wt << " -> " << MAX_VALUE << std::endl;
+
+			ct++;
+		}
+	}
+	for (int i = 0; i < batch_size; i++)
+		instance_graph.add_edge(selected_edge_vec[i].first, selected_edge_vec[i].second, new_edge_weight_vec[i]);
+
+	/*maintain labels*/
+	nonHOP_WeightIncreaseMaintenance_improv_batch(instance_graph, mm, selected_edge_vec, selected_edge_weight_vec, pool_dynamic, results_dynamic);
+	std::cout << "\nafter maintain" << std::endl;
+	mm.print_L();
+	mm.print_PPR();
+	std::cout << std::endl;
+
+	mm.clear_labels();
+}
+
+/* show Label and PPR of the example after edges insertion*/
+void example_after_batch_insertion()
+{
+	/*parameters*/
+	int V = 6, group_num = 4, thread_num = 1;
+	int batch_size = 2;
+
+	two_hop_case_info mm;
+	mm.max_labal_byte_size = 6e9;
+	mm.max_run_time_seconds = 1e2;
+	mm.use_2M_prune = 1;
+	mm.use_rank_prune = 1;
+	mm.use_canonical_repair = 1;
+	mm.thread_num = 1;
+
+	graph_v_of_v<int> instance_graph;
+	instance_graph.txt_read("simple_iterative_tests.txt");
+	//binary_read_vector("simple_iterative_tests_is_mock.txt", is_mock);
+
+	PLL(instance_graph, mm);
+	initialize_global_values_dynamic(V + group_num, thread_num);
+
+	ThreadPool pool_dynamic(thread_num);
+	std::vector<std::future<int>> results_dynamic;
+
+	vector<pair<int, int>> selected_edge_vec;
+	vector<int> selected_edge_weight_vec;
+	vector<int> new_edge_weight_vec;
+
+	std::cout << "\nbefore maintain" << std::endl;
+	mm.print_L();
+	mm.print_PPR();
+	std::cout << "\nweight change:" << std::endl;
+
+	int ct = 0;
+
+	while (ct < batch_size)
+	{
+		int v1 = 3;
+		int v2 = 5;
+		int new_ec = 6;
+		if (ct == 1)
+		{
+			v1 = 4;
+			v2 = 6;
+			new_ec = 3;
+		}
+		if (instance_graph[v1].size() < instance_graph.size())
+		{
+			// cout << "ct: " << ct << endl;
+			int wt = instance_graph.edge_weight(v1, v2);
+			if (v1 > v2)
+				swap(v1, v2);
+
+			selected_edge_vec.push_back({v1, v2});
+			selected_edge_weight_vec.push_back(wt);
+			new_edge_weight_vec.push_back(new_ec);
+			std::cout << v1 << " " << v2 << " : " << wt << " -> " << new_ec << std::endl;
+			ct++;
+		}
+	}
+
+	for (int i = 0; i < batch_size; i++)
+		instance_graph.add_edge(selected_edge_vec[i].first, selected_edge_vec[i].second, new_edge_weight_vec[i]);
+
+	/*maintain labels*/
+	nonHOP_WeightDecreaseMaintenance_improv_batch(instance_graph, mm, selected_edge_vec, new_edge_weight_vec, pool_dynamic, results_dynamic);
+
+	std::cout << "\nafter maintain" << std::endl;
+	mm.print_L();
+	mm.print_PPR();
+	std::cout << std::endl;
+
+	mm.clear_labels();
+}
+
+
+
+
+
 int main()
 {
-	test_PLL();
+	example_after_batch_deletion();
 }
 
 
