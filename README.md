@@ -10,7 +10,7 @@ The data files are zipped together, and should be unzipped first. There are six 
 
 1. "exp_musae_info.txt". This readable file contains the basic information of this dataset, including the numbers of mock and non-mock vertices and edges in this dataset. This file also shows every edge and edge weight. For example, "Edge 0 1 1000000" shows that there is a mock edge between vertex 0 and vertex 1, with the constant mock edge weight of 1000000; and "Edge 0 4 51" shows that there is a non-mock edge between vertex 0 and vertex 4, with a non-mock edge weight of 51, which corresponds to a pairwise Jaccard distance of 0.51. Notably, mock vertices are only adjacent to non-mock vertices through mock edges, and each mock edge connects a mock vertex and a non-mock vertex. Thus, the above two edges indicate that vertex 0 and vertex 4 are non-mock vertices, while vertex 1 is a mock vertex.
 
-The following 5 binary files can be read by the codes below when conducting experiments. The reason for generating binary files is that it is much faster to read binary files than to read raw data files when conducting experiments.
+The following 6 binary files can be read by codes when conducting experiments. The reason for generating binary files is that it is much faster to read binary files than to read raw data files when conducting experiments.
 
 2. "exp_musae_new_is_mock_Jacard.binary". This binary file uses bool values to show the mock or non-mock state of each vertex.
 
@@ -22,12 +22,12 @@ The following 5 binary files can be read by the codes below when conducting expe
 
 6. "exp_musae_select_groups2_Jacard.binary". This binary file contains the randomly selected sets of vertex groups for querying group Steiner trees in experiments. Each set contains 5 vertex groups. 
 
-6. "exp_musae_select_groups3_Jacard.binary". This binary file contains the randomly selected sets of vertex groups for querying group Steiner trees in experiments. Each set contains 7 vertex groups. 
+7. "exp_musae_select_groups3_Jacard.binary". This binary file contains the randomly selected sets of vertex groups for querying group Steiner trees in experiments. Each set contains 7 vertex groups. 
 
 
 ## HL-GST_code
 
-There are some h and cpp files are conducting experiments in the paper. The h files are at "HL-GST_code\include", while the cpp files are at "HL-GST_code\src". In particular,
+There are some h and cpp files for conducting experiments in the paper. The h files are at "HL-GST_code\include", while the cpp files are at "HL-GST_code\src". In particular,
 
 - "exp_HL4GST.cpp" at "HL-GST_code\src\label_generation" contains codes for conducting the label generation experiments in the paper. 
 
@@ -35,7 +35,7 @@ There are some h and cpp files are conducting experiments in the paper. The h fi
 
 - "exp_HL4GST_HOP_maintain.cpp" at "HL-GST_code\src\HOP_maintain" contains codes for conducting the constrained label maintenance experiments in the paper. 
 
-More detailed codes in other regions can then be traced by the above codes for experiment. Specifically,
+More detailed codes in other regions can be traced by the above codes for experiment. Specifically,
 
 - "HL-GST_code\include\label_generation" contains source codes of the implemented algortihms in the label generation experiments.
 
