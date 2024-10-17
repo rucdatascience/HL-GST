@@ -1,4 +1,4 @@
-# Generation and Maintenance of 2-hop Labels for Accelerating Group Steiner Tree Search on Graphs
+# Scaling Up Group Steiner Tree Search on Graphs: A Two-hop Label Based Approach
 
 The introduction of these files are as follows. 
 
