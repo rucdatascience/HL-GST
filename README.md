@@ -1,4 +1,4 @@
-# Scaling up Group Steiner Tree Search on Graphs: A Two-hop Label Based Approach
+# Scaling Up Group Steiner Tree Search on Graphs: A Two-hop Label Based Approach
 
 The introduction of these files are as follows. 
 
