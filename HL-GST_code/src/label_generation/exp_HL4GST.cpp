@@ -853,6 +853,56 @@ void exp_element_HOP_static(string data_name, int ec_type, int thread_num, long 
 	}
 }
 
+
+void print_group_sizes_element(string data_name, int ec_type) {
+
+	/*read data*/
+	string ec_type_name;
+	if (ec_type == 0) {
+		ec_type_name = "Jacard";
+	}
+	else if (ec_type == 1) {
+		ec_type_name = "random";
+	}
+	graph_v_of_v<int> input_graph_Mock;
+	vector<int> new_is_mock;
+	input_graph_Mock.binary_read(global_path + data_name + "//exp_" + data_name + "_input_graph_Mock_" + ec_type_name + ".binary");
+	binary_read_vector(global_path + data_name + "//exp_" + data_name + "_new_is_mock_" + ec_type_name + ".binary", new_is_mock);
+
+	int V = input_graph_Mock.size();
+
+	/*output*/
+	ofstream outputFile;
+	outputFile.precision(8);
+	outputFile.setf(ios::fixed);
+	outputFile.setf(ios::showpoint);
+	string save_name = "group_sizes_" + data_name + ".txt";
+	outputFile.open(save_name);
+
+	for(int i=0;i<V;i++){
+		if(new_is_mock[i]){
+			outputFile << input_graph_Mock[i].size() << endl;
+		}
+	}
+
+	outputFile.close();
+}
+
+
+
+void print_group_sizes() {
+
+	vector<string> used_datas = { "musae",  "twitch", "github", "amazon", "reddit", "dblp" };
+
+	/*Jacard & random*/
+	if (1) {
+		for (int i = 0; i < used_datas.size(); i++) {
+			print_group_sizes_element(used_datas[i], 0);
+		}
+	}
+
+}
+
 void main_exp_nonHOP() {
 
 	vector<string> used_datas = { "musae",  "twitch", "github", "amazon", "reddit", "dblp" };
@@ -894,6 +944,7 @@ int main()
 	auto begin = std::chrono::high_resolution_clock::now();
 	srand(time(NULL)); //  seed random number generator
 
+	//print_group_sizes();
 	main_exp_nonHOP();
 	main_exp_HOP();
 
