@@ -1,4 +1,4 @@
-# Scaling Up Group Steiner Tree Search on Graphs: A Two-hop Label Based Approach
+# L4G: Efficient Two-hop Label Management for Searching Group Steiner Trees
 
 The introduction of these files are as follows. 
 
@@ -31,19 +31,13 @@ There are some h and cpp files for conducting experiments in the paper. The h fi
 
 - "exp_HL4GST.cpp" at "HL-GST_code\src\label_generation" contains codes for conducting the label generation experiments in the paper. 
 
-- "exp_HL4GST_nonHOP_maintain.cpp" at "HL-GST_code\src\nonHOP_maintain" contains codes for conducting the unconstrained label maintenance experiments in the paper. 
-
-- "exp_HL4GST_HOP_maintain.cpp" at "HL-GST_code\src\HOP_maintain" contains codes for conducting the constrained label maintenance experiments in the paper. 
+- "exp_HL4GST_nonHOP_maintain.cpp" at "HL-GST_code\src\nonHOP_maintain" contains codes for conducting the label maintenance experiments in the paper. 
 
 More detailed codes in other regions can be traced by the above codes for experiment. Specifically,
 
 - "HL-GST_code\include\label_generation" contains source codes of the implemented algortihms in the label generation experiments.
 
-- "HL-GST_code\include\nonHOP_maintain" contains source codes of the implemented algortihms in the unconstrained label maintenance experiments.
-
-- "HL-GST_code\include\HOP_maintain" contains source codes of the implemented algortihms in the constrained label maintenance experiments.
-
-
+- "HL-GST_code\include\nonHOP_maintain" contains source codes of the implemented algortihms in the label maintenance experiments.
 
 
 
@@ -80,26 +74,15 @@ The experiment results will be automatically saved in CSV files.
 
 
 
-To run the experiments of maintaining unconstrained labels, we need to first use the following command to generate the initial unconstrained labels:
+To run the experiments of maintaining labels, we need to first use the following command to generate the initial labels:
 ```
 sh HL-GST_code/sh/run_nonHOP_maintain_exp_generateLPPR.sh
 ```
-and then use the following command to run the experiments of maintaining unconstrained labels:
+and then use the following command to run the experiments of maintaining labels:
 ```
 sh HL-GST_code/sh/run_nonHOP_maintain_exp.sh
 ```
 
-
-
-
-Similarly, to run the experiments of maintaining constrained labels, we need to first use the following command to generate the initial constrained labels:
-```
-sh HL-GST_code/sh/run_HOP_maintain_exp_generateLPPR.sh
-```
-and then use the following command to run the experiments of maintaining constrained labels:
-```
-sh HL-GST_code/sh/run_HOP_maintain_exp.sh
-```
 
 All the experiments in the paper are conducted via the above approaches.
 
