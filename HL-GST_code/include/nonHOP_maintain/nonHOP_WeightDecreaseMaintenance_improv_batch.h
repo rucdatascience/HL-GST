@@ -219,6 +219,8 @@ void nonHOP_WeightDecreaseMaintenance_improv_batch(graph_v_of_v<int>& instance_g
 
 	label_operation_times = 0;
 	global_query_times = 0;
+	label_operation_times_NOless_2M = 0;
+	global_query_times_NOless_2M = 0;
 
 	std::map<pair<int,int>,weightTYPE > w_new_map;
 	int batch_size = v.size();

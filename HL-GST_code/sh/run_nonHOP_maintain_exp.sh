@@ -2,7 +2,7 @@ g++ -std=c++17 -I/home/boost_1_75_0 -I/root/HL-GST_code/include /root/HL-GST_cod
 ./A musae musae 300 600
 ./A twitch twitch 300 600
 ./A github github 300 600
-./A amazon amazon 300 600
 ./A reddit reddit 300 600
 ./A dblp dblp 300 600
-rm A
+./A dblp amazon 300 600
+#rm A

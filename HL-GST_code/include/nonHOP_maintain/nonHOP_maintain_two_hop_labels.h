@@ -182,7 +182,7 @@ string reach_limit_time_string = "reach limit time in WeightIncrease";
 
 /*common functions*/
 
-long long int label_operation_times = 0;
+long long int label_operation_times = 0, label_operation_times_NOless_2M = 0;
 
 bool compare_two_hop_label_small_to_large(two_hop_label& i, two_hop_label& j)
 {
@@ -192,6 +192,10 @@ bool compare_two_hop_label_small_to_large(two_hop_label& i, two_hop_label& j)
 void insert_sorted_two_hop_label(std::vector<two_hop_label>& input_vector, int key, weightTYPE value) {
 
 	label_operation_times++;
+
+	if(value >= TwoM_value){
+		label_operation_times_NOless_2M++;
+	}
 
 	int left = 0, right = input_vector.size() - 1;
 
@@ -228,6 +232,9 @@ weightTYPE search_sorted_two_hop_label(std::vector<two_hop_label>& input_vector,
 	while (left <= right) {
 		int mid = left + ((right - left) / 2); // mid is between left and right (may be equal); 
 		if (input_vector[mid].vertex == key) {
+			if(input_vector[mid].distance >= TwoM_value){
+				label_operation_times_NOless_2M++;
+			}
 			return input_vector[mid].distance;
 		}
 		else if (input_vector[mid].vertex > key) {
@@ -252,6 +259,9 @@ pair<weightTYPE, int> search_sorted_two_hop_label2(std::vector<two_hop_label>& i
 	while (left <= right) {
 		int mid = left + ((right - left) / 2); // mid is between left and right (may be equal); 
 		if (input_vector[mid].vertex == key) {
+			if(input_vector[mid].distance >= TwoM_value){
+				label_operation_times_NOless_2M++;
+			}
 			return { input_vector[mid].distance, mid };
 		}
 		else if (input_vector[mid].vertex > key) {
@@ -342,7 +352,7 @@ void initialize_global_values_dynamic(int N, int thread_num) {
 
 /*codes for querying distances*/
 
-long long int global_query_times = 0;
+long long int global_query_times = 0, global_query_times_NOless_2M = 0;
 
 weightTYPE graph_hash_of_mixed_weighted_two_hop_v1_extract_distance_no_reduc(vector<vector<two_hop_label>>& L, int source, int terminal) {
 
@@ -373,6 +383,10 @@ weightTYPE graph_hash_of_mixed_weighted_two_hop_v1_extract_distance_no_reduc(vec
 		else {
 			vector1_check_pointer++;
 		}
+	}
+
+	if(distance >= TwoM_value && distance != std::numeric_limits<weightTYPE>::max()){
+		global_query_times_NOless_2M++;
 	}
 
 	return distance;
@@ -412,6 +426,10 @@ pair<weightTYPE, int> graph_hash_of_mixed_weighted_two_hop_v1_extract_distance_n
 		}
 	}
 
+	if(distance >= TwoM_value && distance != std::numeric_limits<weightTYPE>::max()){
+		global_query_times_NOless_2M++;
+	}
+
 	return { distance , common_hub };
 
 }
@@ -441,6 +459,10 @@ weightTYPE graph_hash_of_mixed_weighted_two_hop_v1_extract_distance_no_reduc3(ve
 		else {
 			vector1_check_pointer++;
 		}
+	}
+
+	if(distance >= TwoM_value && distance != std::numeric_limits<weightTYPE>::max()){
+		global_query_times_NOless_2M++;
 	}
 
 	return distance;
@@ -474,6 +496,10 @@ pair<weightTYPE, int> graph_hash_of_mixed_weighted_two_hop_v1_extract_distance_n
 		else {
 			vector1_check_pointer++;
 		}
+	}
+
+	if(distance >= TwoM_value && distance != std::numeric_limits<weightTYPE>::max()){
+		global_query_times_NOless_2M++;
 	}
 
 	return { distance , common_hub };

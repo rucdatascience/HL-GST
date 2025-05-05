@@ -187,6 +187,8 @@ void nonHOP_WeightIncrease2021_batch(graph_v_of_v<int>& instance_graph, two_hop_
 
 	label_operation_times = 0;
 	global_query_times = 0;
+	label_operation_times_NOless_2M = 0;
+	global_query_times_NOless_2M = 0;
 
 	begin_time = std::chrono::high_resolution_clock::now();
 	max_run_time_nanosec = _2023algo_max_second * 1e9;
