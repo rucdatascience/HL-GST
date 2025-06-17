@@ -1,4 +1,4 @@
-# L4G: Two-hop Label Management for Searching Group Steiner Trees
+# L4G: Two-hop Label Management for Group Steiner Tree Search on Graphs
 
 The introduction of these files are as follows. 
 
