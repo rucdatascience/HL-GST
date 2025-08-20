@@ -5,4 +5,5 @@ g++ -std=c++17 -I/home/boost_1_75_0 -I/root/HL-GST_code/include /root/HL-GST_cod
 ./A reddit reddit 300 600
 ./A dblp dblp 300 600
 ./A dblp amazon 300 600
+./A liveJournal liveJournal 300 600
 #rm A
