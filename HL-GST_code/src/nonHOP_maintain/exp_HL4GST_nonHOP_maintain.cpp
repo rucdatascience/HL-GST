@@ -49,7 +49,8 @@ void generate_L_PPR()
 	cout << "press any key to continue generate_L_PPR" << endl;
 	getchar();
 
-	vector<string> used_datas = {"musae", "twitch", "github", "amazon", "dblp", "reddit"};
+	//vector<string> used_datas = {"musae", "twitch", "github", "amazon", "dblp", "reddit"};
+	vector<string> used_datas = {"liveJournal"};
 
 	/*Jacard & random*/
 	for (int i = 0; i < used_datas.size(); i++)

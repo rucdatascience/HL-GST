@@ -905,10 +905,11 @@ void print_group_sizes() {
 
 void main_exp_nonHOP() {
 
-	vector<string> used_datas = { "musae",  "twitch", "github", "amazon", "reddit", "dblp" };
+	//vector<string> used_datas = { "musae",  "twitch", "github", "amazon", "reddit", "dblp" };
+	vector<string> used_datas = { "liveJournal" };
 
-	long long int max_byte_size = pow(1024, 3) * 500;
-	double max_run_time_seconds = 3600 * 24;
+	long long int max_byte_size = pow(1024, 3) * 1000;
+	double max_run_time_seconds = 3600 * 240;
 
 	/*Jacard & random*/
 	if (1) {
@@ -946,7 +947,7 @@ int main()
 
 	//print_group_sizes();
 	main_exp_nonHOP();
-	main_exp_HOP();
+	//main_exp_HOP();
 
 	auto end = std::chrono::high_resolution_clock::now();
 	double runningtime = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() / 1e9; // s
