@@ -121,8 +121,10 @@ void exp_element_nonHOP_static(string data_name, int ec_type, int thread_num, lo
 		WWW2020_newHL_Qratio,
 		NOINDEX_GST_time1, NOINDEX_GST_time2, NOINDEX_GST_time3;
 
+	
+	cout<< "step 1" <<endl;
 	/* WWW2020NoMock */
-	if (1) {
+	if (0) {
 		string algo_name = "WWW2020NoMock";
 		cout << "start " + algo_name << endl;
 
@@ -193,8 +195,9 @@ void exp_element_nonHOP_static(string data_name, int ec_type, int thread_num, lo
 		}
 	}
 
+	cout<< "step 2" <<endl;
 	/* WWW2020WithMock */
-	if (1) {
+	if (0) {
 		string algo_name = "WWW2020WithMock";
 		cout << "start " + algo_name << endl;
 
@@ -276,6 +279,126 @@ void exp_element_nonHOP_static(string data_name, int ec_type, int thread_num, lo
 		}
 	}
 
+	cout<< "step 3" <<endl;
+	/* newHL */
+	if (1) {
+		string algo_name = "newHL";
+		cout << "start " + algo_name << endl;
+
+		two_hop_case_info mm;
+		mm.thread_num = thread_num;
+		mm.max_labal_byte_size = max_byte_size;
+		mm.max_run_time_seconds = max_run_time_seconds;
+		mm.use_rank_prune = 1;
+		mm.use_2M_prune = 1;
+		mm.use_canonical_repair = 1;
+
+		bool catch_error = false;
+		try {
+			PLL(input_graph_Mock, mm); // with mock
+		}
+		catch (string s) {
+			catch_error = true;
+			cout << s << endl;
+			PLL_clear_global_values();
+		}
+		mm.record_all_details(save_name + "_" + algo_name);
+		cout << "finish " + algo_name << endl;
+
+		for (int i = 0; i < query_times; i++) {
+			if (1) {
+				double avgMockL_size = 0;
+				for (auto x : select_groups1[i]) {
+					avgMockL_size += mm.L[x].size();
+				}
+				avgMockL_size = avgMockL_size / select_groups1[i].size();
+				newHL_avgMockL_size1.push_back(avgMockL_size);
+			}
+			if (1) {
+				double avgMockL_size = 0;
+				for (auto x : select_groups2[i]) {
+					avgMockL_size += mm.L[x].size();
+				}
+				avgMockL_size = avgMockL_size / select_groups2[i].size();
+				newHL_avgMockL_size2.push_back(avgMockL_size);
+			}
+			if (1) {
+				double avgMockL_size = 0;
+				for (auto x : select_groups3[i]) {
+					avgMockL_size += mm.L[x].size();
+				}
+				avgMockL_size = avgMockL_size / select_groups3[i].size();
+				newHL_avgMockL_size3.push_back(avgMockL_size);
+			}
+		}
+
+		if (!catch_error) {
+			newHL_index_time = mm.time_total, newHL_index_size = mm.compute_label_byte_size();
+			ThreadPool pool(50);
+			std::vector< std::future<tuple<double, double, double>> > results; // return typename: xxx
+			for (int i = 0; i < query_times; i++) {
+				results.emplace_back(
+					pool.enqueue([&mm, &input_graph_Mock, &select_groups1, &select_groups2, &select_groups3, i] { // pass const type value j to thread; [] can be empty
+
+						GST_nonHOP_query(mm, input_graph_Mock, select_groups1[i], true); // this is to warm up this thread
+						double xx1 = GST_nonHOP_query(mm, input_graph_Mock, select_groups1[i], true);
+						double xx2 = GST_nonHOP_query(mm, input_graph_Mock, select_groups2[i], true);
+						double xx3 = GST_nonHOP_query(mm, input_graph_Mock, select_groups3[i], true);
+
+						tuple<double, double, double> x = { xx1, xx2, xx3 };
+						return x; // return to results; the return type must be the same with results
+						})
+				);
+			}
+			for (auto&& result : results) {
+				auto xx = result.get(); //all threads finish here
+				newHL_GST_time1.push_back(std::get<0>(xx)), newHL_GST_time2.push_back(std::get<1>(xx)), newHL_GST_time3.push_back(std::get<2>(xx));
+			}
+		}
+		else {
+			newHL_index_time = -1, newHL_index_size = -1;
+			for (int i = 0; i < query_times; i++) {
+				newHL_GST_time1.push_back(-1), newHL_GST_time2.push_back(-1), newHL_GST_time3.push_back(-1);
+			}
+		}
+	}
+
+	cout<< "step 4" <<endl;
+	/*NOindex GST*/
+	if (1) {
+		ThreadPool pool(50);
+		std::vector< std::future<tuple<double, double, double>> > results; // return typename: xxx
+		for (int i = 0; i < query_times; i++) {
+			results.emplace_back(
+				pool.enqueue([&input_graph_Mock, &select_groups1, &select_groups2, &select_groups3, i] { // pass const type value j to thread; [] can be empty
+
+					auto b = std::chrono::high_resolution_clock::now();
+					GST_nonHOP_NOINDEX(input_graph_Mock, select_groups1[i]);
+					auto e = std::chrono::high_resolution_clock::now();
+					double xx1 = std::chrono::duration_cast<std::chrono::nanoseconds>(e - b).count() / 1e9; // s
+
+					b = std::chrono::high_resolution_clock::now();
+					GST_nonHOP_NOINDEX(input_graph_Mock, select_groups2[i]);
+					e = std::chrono::high_resolution_clock::now();
+					double xx2 = std::chrono::duration_cast<std::chrono::nanoseconds>(e - b).count() / 1e9; // s
+
+					b = std::chrono::high_resolution_clock::now();
+					GST_nonHOP_NOINDEX(input_graph_Mock, select_groups3[i]);
+					e = std::chrono::high_resolution_clock::now();
+					double xx3 = std::chrono::duration_cast<std::chrono::nanoseconds>(e - b).count() / 1e9; // s
+
+					tuple<double, double, double> x = { xx1, xx2, xx3 };
+					return x; // return to results; the return type must be the same with results
+					})
+			);
+		}
+		for (auto&& result : results) {
+			auto xx = result.get(); //all threads finish here
+			NOINDEX_GST_time1.push_back(std::get<0>(xx)), NOINDEX_GST_time2.push_back(std::get<1>(xx)), NOINDEX_GST_time3.push_back(std::get<2>(xx));
+		}
+	}
+
+   cout<< "step 5" <<endl;
 	/* CT */
 	if (1) {
 		string algo_name = "CT";
@@ -362,123 +485,9 @@ void exp_element_nonHOP_static(string data_name, int ec_type, int thread_num, lo
 		}
 	}
 
-	/* newHL */
-	if (1) {
-		string algo_name = "newHL";
-		cout << "start " + algo_name << endl;
 
-		two_hop_case_info mm;
-		mm.thread_num = thread_num;
-		mm.max_labal_byte_size = max_byte_size;
-		mm.max_run_time_seconds = max_run_time_seconds;
-		mm.use_rank_prune = 1;
-		mm.use_2M_prune = 1;
-		mm.use_canonical_repair = 1;
 
-		bool catch_error = false;
-		try {
-			PLL(input_graph_Mock, mm); // with mock
-		}
-		catch (string s) {
-			catch_error = true;
-			cout << s << endl;
-			PLL_clear_global_values();
-		}
-		mm.record_all_details(save_name + "_" + algo_name);
-		cout << "finish " + algo_name << endl;
-
-		for (int i = 0; i < query_times; i++) {
-			if (1) {
-				double avgMockL_size = 0;
-				for (auto x : select_groups1[i]) {
-					avgMockL_size += mm.L[x].size();
-				}
-				avgMockL_size = avgMockL_size / select_groups1[i].size();
-				newHL_avgMockL_size1.push_back(avgMockL_size);
-			}
-			if (1) {
-				double avgMockL_size = 0;
-				for (auto x : select_groups2[i]) {
-					avgMockL_size += mm.L[x].size();
-				}
-				avgMockL_size = avgMockL_size / select_groups2[i].size();
-				newHL_avgMockL_size2.push_back(avgMockL_size);
-			}
-			if (1) {
-				double avgMockL_size = 0;
-				for (auto x : select_groups3[i]) {
-					avgMockL_size += mm.L[x].size();
-				}
-				avgMockL_size = avgMockL_size / select_groups3[i].size();
-				newHL_avgMockL_size3.push_back(avgMockL_size);
-			}
-		}
-
-		if (!catch_error) {
-			newHL_index_time = mm.time_total, newHL_index_size = mm.compute_label_byte_size();
-			ThreadPool pool(50);
-			std::vector< std::future<tuple<double, double, double>> > results; // return typename: xxx
-			for (int i = 0; i < query_times; i++) {
-				results.emplace_back(
-					pool.enqueue([&mm, &input_graph_Mock, &select_groups1, &select_groups2, &select_groups3, i] { // pass const type value j to thread; [] can be empty
-
-						GST_nonHOP_query(mm, input_graph_Mock, select_groups1[i], true); // this is to warm up this thread
-						double xx1 = GST_nonHOP_query(mm, input_graph_Mock, select_groups1[i], true);
-						double xx2 = GST_nonHOP_query(mm, input_graph_Mock, select_groups2[i], true);
-						double xx3 = GST_nonHOP_query(mm, input_graph_Mock, select_groups3[i], true);
-
-						tuple<double, double, double> x = { xx1, xx2, xx3 };
-						return x; // return to results; the return type must be the same with results
-						})
-				);
-			}
-			for (auto&& result : results) {
-				auto xx = result.get(); //all threads finish here
-				newHL_GST_time1.push_back(std::get<0>(xx)), newHL_GST_time2.push_back(std::get<1>(xx)), newHL_GST_time3.push_back(std::get<2>(xx));
-			}
-		}
-		else {
-			newHL_index_time = -1, newHL_index_size = -1;
-			for (int i = 0; i < query_times; i++) {
-				newHL_GST_time1.push_back(-1), newHL_GST_time2.push_back(-1), newHL_GST_time3.push_back(-1);
-			}
-		}
-	}
-
-	/*NOindex GST*/
-	if (1) {
-		ThreadPool pool(50);
-		std::vector< std::future<tuple<double, double, double>> > results; // return typename: xxx
-		for (int i = 0; i < query_times; i++) {
-			results.emplace_back(
-				pool.enqueue([&input_graph_Mock, &select_groups1, &select_groups2, &select_groups3, i] { // pass const type value j to thread; [] can be empty
-
-					auto b = std::chrono::high_resolution_clock::now();
-					GST_nonHOP_NOINDEX(input_graph_Mock, select_groups1[i]);
-					auto e = std::chrono::high_resolution_clock::now();
-					double xx1 = std::chrono::duration_cast<std::chrono::nanoseconds>(e - b).count() / 1e9; // s
-
-					b = std::chrono::high_resolution_clock::now();
-					GST_nonHOP_NOINDEX(input_graph_Mock, select_groups2[i]);
-					e = std::chrono::high_resolution_clock::now();
-					double xx2 = std::chrono::duration_cast<std::chrono::nanoseconds>(e - b).count() / 1e9; // s
-
-					b = std::chrono::high_resolution_clock::now();
-					GST_nonHOP_NOINDEX(input_graph_Mock, select_groups3[i]);
-					e = std::chrono::high_resolution_clock::now();
-					double xx3 = std::chrono::duration_cast<std::chrono::nanoseconds>(e - b).count() / 1e9; // s
-
-					tuple<double, double, double> x = { xx1, xx2, xx3 };
-					return x; // return to results; the return type must be the same with results
-					})
-			);
-		}
-		for (auto&& result : results) {
-			auto xx = result.get(); //all threads finish here
-			NOINDEX_GST_time1.push_back(std::get<0>(xx)), NOINDEX_GST_time2.push_back(std::get<1>(xx)), NOINDEX_GST_time3.push_back(std::get<2>(xx));
-		}
-	}
-
+    cout<< "step 6" <<endl;
 	/* WWW2020_newHL_Qratio */
 	for (int i = 0; i < query_times; i++) {
 		double min_ratio = min(WWW2020WithMock_GST_time1[i] / newHL_GST_time1[i], WWW2020WithMock_GST_time2[i] / newHL_GST_time2[i]);
@@ -887,7 +896,6 @@ void print_group_sizes_element(string data_name, int ec_type) {
 
 	outputFile.close();
 }
-
 
 
 void print_group_sizes() {
