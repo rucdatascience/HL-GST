@@ -471,7 +471,7 @@ void exp_element_nonHOP(string data_name, string file_name, int iteration_num)
 				}
 
 				/*2023 decrease d1*/
-				if (1)
+				if (0)
 				{
 					cout << "2023 decrease d1" << endl;
 					auto mm = mm_initial;
@@ -493,7 +493,7 @@ void exp_element_nonHOP(string data_name, string file_name, int iteration_num)
 				}
 
 				/*2023 increase d1*/
-				if (1)
+				if (0)
 				{
 					cout << "2023 increase d1" << endl;
 					auto mm = mm_initial;
@@ -545,7 +545,7 @@ void exp_element_nonHOP(string data_name, string file_name, int iteration_num)
 				}
 
 				/*2023 decrease d40*/
-				if (1)
+				if (0)
 				{
 					cout << "2023 decrease d40" << endl;
 					auto mm = mm_initial;
@@ -567,7 +567,7 @@ void exp_element_nonHOP(string data_name, string file_name, int iteration_num)
 				}
 
 				/*2023 increase d40*/
-				if (1)
+				if (0)
 				{
 					cout << "2023 increase d40" << endl;
 					auto mm = mm_initial;
