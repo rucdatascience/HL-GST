@@ -124,7 +124,7 @@ void exp_element_nonHOP_static(string data_name, int ec_type, int thread_num, lo
 	
 	cout<< "step 1" <<endl;
 	/* WWW2020NoMock */
-	if (0) {
+	if (1) {
 		string algo_name = "WWW2020NoMock";
 		cout << "start " + algo_name << endl;
 
@@ -197,7 +197,7 @@ void exp_element_nonHOP_static(string data_name, int ec_type, int thread_num, lo
 
 	cout<< "step 2" <<endl;
 	/* WWW2020WithMock */
-	if (0) {
+	if (1) {
 		string algo_name = "WWW2020WithMock";
 		cout << "start " + algo_name << endl;
 
@@ -485,8 +485,6 @@ void exp_element_nonHOP_static(string data_name, int ec_type, int thread_num, lo
 		}
 	}
 
-
-
     cout<< "step 6" <<endl;
 	/* WWW2020_newHL_Qratio */
 	for (int i = 0; i < query_times; i++) {
@@ -495,6 +493,7 @@ void exp_element_nonHOP_static(string data_name, int ec_type, int thread_num, lo
 		WWW2020_newHL_Qratio.push_back(min_ratio);
 	}
 
+	cout<< "step 7" <<endl;
 	/*output*/
 	for (int i = 0; i < query_times; i++) {
 		outputFile << WWW2020NoMock_index_time << "," << WWW2020NoMock_index_size << "," <<
