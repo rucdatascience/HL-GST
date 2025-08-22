@@ -899,7 +899,8 @@ void print_group_sizes_element(string data_name, int ec_type) {
 
 void print_group_sizes() {
 
-	vector<string> used_datas = { "musae",  "twitch", "github", "amazon", "reddit", "dblp" };
+	//vector<string> used_datas = { "musae",  "twitch", "github", "amazon", "reddit", "dblp" };
+	vector<string> used_datas = { "liveJournal" };
 
 	/*Jacard & random*/
 	if (1) {
@@ -952,8 +953,8 @@ int main()
 	auto begin = std::chrono::high_resolution_clock::now();
 	srand(time(NULL)); //  seed random number generator
 
-	//print_group_sizes();
-	main_exp_nonHOP();
+	print_group_sizes();
+	//main_exp_nonHOP();
 	//main_exp_HOP();
 
 	auto end = std::chrono::high_resolution_clock::now();
