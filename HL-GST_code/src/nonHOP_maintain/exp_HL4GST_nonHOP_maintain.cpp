@@ -253,8 +253,8 @@ void exp_element_nonHOP(string data_name, string file_name, int iteration_num)
 	two_hop_case_info mm_initial_2M, mm_initial;
 	binary_read_PPR(path + data_name + "_PPR_2M.bin", mm_initial_2M.PPR);
 	binary_read_vector_of_vectors(path + data_name + "_L_2M.bin", mm_initial_2M.L);
-	//binary_read_PPR(path + data_name + "_PPR.bin", mm_initial.PPR);
-	//binary_read_vector_of_vectors(path + data_name + "_L.bin", mm_initial.L);
+	binary_read_PPR(path + data_name + "_PPR.bin", mm_initial.PPR);
+	binary_read_vector_of_vectors(path + data_name + "_L.bin", mm_initial.L);
 
 	int thread_num = 80;
 	vector<int> batches = {1, 10, 20};
@@ -363,7 +363,7 @@ void exp_element_nonHOP(string data_name, string file_name, int iteration_num)
 			}
 
 			/*2023 decrease*/
-			if (0)
+			if (1)
 			{
 				cout << "2023 decrease" << endl;
 				auto mm = mm_initial;
@@ -401,7 +401,7 @@ void exp_element_nonHOP(string data_name, string file_name, int iteration_num)
 			}
 
 			/*2023 increase*/
-			if (0)
+			if (1)
 			{
 				cout << "2023 increase" << endl;
 				auto mm = mm_initial;
@@ -471,7 +471,7 @@ void exp_element_nonHOP(string data_name, string file_name, int iteration_num)
 				}
 
 				/*2023 decrease d1*/
-				if (0)
+				if (1)
 				{
 					cout << "2023 decrease d1" << endl;
 					auto mm = mm_initial;
@@ -493,7 +493,7 @@ void exp_element_nonHOP(string data_name, string file_name, int iteration_num)
 				}
 
 				/*2023 increase d1*/
-				if (0)
+				if (1)
 				{
 					cout << "2023 increase d1" << endl;
 					auto mm = mm_initial;
@@ -545,7 +545,7 @@ void exp_element_nonHOP(string data_name, string file_name, int iteration_num)
 				}
 
 				/*2023 decrease d40*/
-				if (0)
+				if (1)
 				{
 					cout << "2023 decrease d40" << endl;
 					auto mm = mm_initial;
@@ -567,7 +567,7 @@ void exp_element_nonHOP(string data_name, string file_name, int iteration_num)
 				}
 
 				/*2023 increase d40*/
-				if (0)
+				if (1)
 				{
 					cout << "2023 increase d40" << endl;
 					auto mm = mm_initial;
