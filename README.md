@@ -6,7 +6,7 @@ The introduction of these files are as follows.
 
 ## HL-GST_data
 
-The data files are zipped together, and should be unzipped first. There are six datasets: Musae, Twitch, Github, Amazon, DBLP, Reddit. There are 7 files for each dataset. For example, the Musae dataset contains the following 7 files. 
+The data files are zipped together, and should be unzipped first. There are 7 datasets: Musae, Twitch, Github, Amazon, DBLP, Reddit, LiveJournal. There are 7 files for each dataset. For example, the Musae dataset contains the following 7 files. 
 
 1. "exp_musae_info.txt". This readable file contains the basic information of this dataset, including the numbers of mock and non-mock vertices and edges in this dataset. This file also shows every edge and edge weight. For example, "Edge 0 1 1000000" shows that there is a mock edge between vertex 0 and vertex 1, with the constant mock edge weight of 1000000; and "Edge 0 4 51" shows that there is a non-mock edge between vertex 0 and vertex 4, with a non-mock edge weight of 51, which corresponds to a pairwise Jaccard distance of 0.51. Notably, mock vertices are only adjacent to non-mock vertices through mock edges, and each mock edge connects a mock vertex and a non-mock vertex. Thus, the above two edges indicate that vertex 0 and vertex 4 are non-mock vertices, while vertex 1 is a mock vertex.
 
@@ -29,84 +29,123 @@ The following 6 binary files can be read by codes when conducting experiments. T
 
 There are some h and cpp files for conducting experiments in the paper. The h files are at "HL-GST_code\include", while the cpp files are at "HL-GST_code\src". In particular,
 
-- "exp_HL4GST.cpp" at "HL-GST_code\src\label_generation" contains codes for conducting the label generation experiments in the paper. 
+- "exp_HL4GST.cpp" at "HL-GST_code\src\label_generation" contains codes for conducting the label generation and GST query experiments in the paper. 
 
 - "exp_HL4GST_nonHOP_maintain.cpp" at "HL-GST_code\src\nonHOP_maintain" contains codes for conducting the label maintenance experiments in the paper. 
 
-More detailed codes in other regions can be traced by the above codes for experiment. Specifically,
+More detailed codes in other regions can be traced by the above codes. Specifically,
 
-- "HL-GST_code\include\label_generation" contains source codes of the implemented algortihms in the label generation experiments.
+- "HL-GST_code\include\label_generation" contains source codes of implemented label generation algorithms in experiments.
 
-- "HL-GST_code\include\nonHOP_maintain" contains source codes of the implemented algortihms in the label maintenance experiments.
-
-
-
-## Compiling Code example
-
-We compile the above codes and run the experiments in the paper on a Linux server with the Ubuntu 20.04.1 system, two Intel Xeon Gold 6342 processors, 1 TB RAM and 2 TB hard disk space. We show the details as follows.
-
-Suppose that the user name on the Linux server is "root". We prepare the compiling environment as follows.
-
-- <b>Download and unzip the datasets.</b> Suppose that the unzipped datasets are at "root/HL-GST_data" on the Linux server.
+- "HL-GST_code\include\nonHOP_maintain" contains source codes of implemented label maintenance algorithms in experiments.
 
 
-- <b>Download and unzip the Boost library at https://www.boost.org.</b> Suppose that the unzipped Boost files are at "home/boost_1_75_0" on the Linux server.
+## Compiling and Running Codes
 
+To ensure a high reproducibility, we provide a unified workflow based on Docker. The following guide covers all steps from environment setup and code compilation for running experiments in the paper.
 
-- <b>Download and unzip the codes.</b> Suppose that the unzipped codes are at "root/HL-GST_code" on the Linux server.
+### Step 1: Prepare Project Files
 
-After preparing the environment as suggested above, we can compile and run the codes using the sh files at "HL-GST_code\sh". 
+First, the required project files must be prepared on the host machine. Ensure **Docker** is installed on your system.
 
-Specifically, in the root terminal on the Linux server, we can use the following command to run the experiments of generating 2-hop labels:
+1.  **Create the project directory structure.** Suppose the top-level project directory is `HL-GST`.
+2.  **Download and unzip the datasets.** The unzipped data files should be placed in the `HL-GST/HL-GST_data/` directory.
+3.  **Download and unzip the code.** The unzipped code files, including the `Dockerfile`, should be placed in the `HL-GST/HL-GST_code/` directory.
+
+The final directory structure should be as follows:
+
 ```
-sh HL-GST_code/sh/run_label_generation_exp.sh
-```
-
-The contents in "run_label_generation_exp.sh" are as follows:
-```
-g++ -std=c++17 -I/home/boost_1_75_0 -I/root/HL-GST_code/include /root/HL-GST_code/src/label_generation/exp_HL4GST.cpp -lpthread -O3 -o A
-./A
-```
-where "-I/home/boost_1_75_0" is to add the path of the boost folder when compiling, "-I/root/HL-GST_code/include" is to add the path of the cppheader folder when compiling, "/root/HL-GST_code/src/label_generation/exp_HL4GST.cpp" is the compiled cpp file for the experiments of generating 2-hop labels, "-lpthread" is for parallel computation, and "-O3" is for compiler optimisation.
-
-The experiment results will be automatically saved in CSV files.
-
-
-
-
-To run the experiments of maintaining labels, we need to first use the following command to generate the initial labels:
-```
-sh HL-GST_code/sh/run_nonHOP_maintain_exp_generateLPPR.sh
-```
-and then use the following command to run the experiments of maintaining labels:
-```
-sh HL-GST_code/sh/run_nonHOP_maintain_exp.sh
+HL-GST/
+├── HL-GST_data/
+│   ├── musae/
+│   └── ...
+└── HL-GST_code/
+    ├── Dockerfile
+    ├── CMakeLists.txt
+    ├── run.sh
+    ├── include/
+    └── src/
 ```
 
+### Step 2: Build Docker Image
+
+We use the provided `Dockerfile` to build a self-contained image with all necessary dependencies, e.g., C++17 compiler, CMake, Boost library, etc. This process only needs to be performed once.
+
+1.  **Navigate to the code directory.** Open a terminal and change the directory to `HL-GST/HL-GST_code/`, where the `Dockerfile` is located.
+
+    ```bash
+    cd /path/to/your/HL-GST/HL-GST_code
+    ```
+
+
+2.  **Build the Docker image.** Execute the following command to start the building process.
+
+    ```bash
+    sudo docker build -t hlgst-experiment .
+    ```
+
+    The `-t hlgst-experiment` argument assigns a convenient tag to the image. The `.` specifies that the `Dockerfile` is in the current directory.
+
+### Step 3: Compile Codes using CMake
+
+Once the image is built, a container can be launched to compile C++ source codes using CMake.
+
+1.  **Create a results directory on the host.** This directory will be used to store output files from experiments.
+
+    ```bash
+    cd /path/to/your/HL-GST
+    mkdir results
+    ```
+
+2.  **Launch the container.** The following command starts the container and places you inside its command-line shell.
+
+    ```bash
+    sudo docker run -it --rm \
+      -v /path/to/your/HL-GST/HL-GST_data:/app/HL-GST_data \
+      -v /path/to/your/HL-GST/results:/app/HL-GST_code/results \
+      hlgst-experiment
+    ```
+
+    The `-v` flags mount host directories into the container, ensuring data persistence and access:
+
+      * The first `-v` makes the host's `HL-GST_data` directory available inside the container at `/app/HL-GST_data`.
+      * The second `-v` maps the host's `results` directory to `/app/HL-GST_code/results`, so that any generated result files are saved directly to the host.
+
+3.  **Compile codes using CMake.** Inside the container (at the `/app/HL-GST_code` prompt), the codes are compiled using an out-of-source build.
+
+    ```bash
+    mkdir build
+    cd build
+    cmake ..
+    make
+    ```
+
+    After a successful compilation, all executables will be located in the `/app/HL-GST_code/build/` directory.
+
+### Step 4: Run Experiments
+
+After compilation, experiments can be executed using the `run.sh` script.
+
+**Note:** The script must be executed from the `/app/HL-GST_code` directory inside the container. If you are currently in the `build` directory, return to the parent directory with `cd ..`.
+
+The following commands are supported by the `run.sh` script.
+
+#### Main Experiment Commands
+
+  * `sh run.sh gen-exp`: Runs experiments for generating 2-hop labels. It calls the `label_generator` executable.
+
+  * `sh run.sh nonhop-lppr`: A pre-processing step for the maintenance experiments. It generates initial labels and indices required for maintenance tasks.
+
+  * `sh run.sh nonhop-batch`: Runs the full batch of label maintenance experiments. This command must be executed after `sh run.sh nonhop-lppr` has completed successfully.
+
+
+#### Test Commands
+
+These commands execute unit tests to verify the correctness of different modules.
+
+  * `sh run.sh gen-test`: Runs tests for the label generation module.
+  * `sh run.sh nonhop-test`: Runs tests for the maintenance module.
+
+All experiment results will be saved in the `results` directory on the host machine. To leave the container, simply type `exit`.
 
 All the experiments in the paper are conducted via the above approaches.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
