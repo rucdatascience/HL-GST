@@ -341,13 +341,13 @@ void HOP_maintain_test()
                 is_mock[V + j] = true;
             }
             instance_graph = graph_v_of_v_update_vertexIDs_by_degrees_large_to_small_mock(instance_graph, is_mock); // sort vertices
-            instance_graph.txt_save("simple_iterative_tests.txt");
-            binary_save_vector("simple_iterative_tests_is_mock.txt", is_mock);
+            instance_graph.txt_save("/app/results/simple_iterative_tests.txt");
+            binary_save_vector("/app/results/simple_iterative_tests_is_mock.txt", is_mock);
         }
         else
         {
-            instance_graph.txt_read("simple_iterative_tests.txt");
-            binary_read_vector("simple_iterative_tests_is_mock.txt", is_mock);
+            instance_graph.txt_read("/app/results/simple_iterative_tests.txt");
+            binary_read_vector("/app/results/simple_iterative_tests_is_mock.txt", is_mock);
         }
 
         // instance_graph.print();
