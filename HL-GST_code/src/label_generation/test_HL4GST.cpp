@@ -186,12 +186,12 @@ void test_PLL() {
 				is_mock[V + j] = true;
 			}
 			instance_graph = graph_v_of_v_update_vertexIDs_by_degrees_large_to_small_mock(instance_graph, is_mock); // sort vertices
-			instance_graph.txt_save("simple_iterative_tests.txt");
-			binary_save_vector("simple_iterative_tests_is_mock.txt", is_mock);
+			instance_graph.txt_save("/app/results/simple_iterative_tests.txt");
+			binary_save_vector("/app/results/simple_iterative_tests_is_mock.txt", is_mock);
 		}
 		else {
-			instance_graph.txt_read("simple_iterative_tests.txt");
-			binary_read_vector("simple_iterative_tests_is_mock.txt", is_mock);
+			instance_graph.txt_read("/app/results/simple_iterative_tests.txt");
+			binary_read_vector("/app/results/simple_iterative_tests_is_mock.txt", is_mock);
 		}
 
 		auto begin = std::chrono::high_resolution_clock::now();
@@ -346,10 +346,10 @@ void test_CT() {
 				add_vertex_groups(instance_graph, group_num);
 			}
 			instance_graph = graph_v_of_v_update_vertexIDs_by_degrees_large_to_small(instance_graph); // sort vertices
-			instance_graph.txt_save("simple_iterative_tests.txt");
+			instance_graph.txt_save("/app/results/simple_iterative_tests.txt");
 		}
 		else {
-			instance_graph.txt_read("simple_iterative_tests.txt");
+			instance_graph.txt_read("/app/results/simple_iterative_tests.txt");
 		}
 
 		auto begin = std::chrono::high_resolution_clock::now();
@@ -570,12 +570,12 @@ void test_HSDL() {
 				is_mock[V + j] = true;
 			}
 			instance_graph = graph_v_of_v_update_vertexIDs_by_degrees_large_to_small_mock(instance_graph, is_mock); // sort vertices
-			instance_graph.txt_save("simple_iterative_tests.txt");
-			binary_save_vector("simple_iterative_tests_is_mock.txt", is_mock);
+			instance_graph.txt_save("/app/results/simple_iterative_tests.txt");
+			binary_save_vector("/app/results/simple_iterative_tests_is_mock.txt", is_mock);
 		}
 		else {
-			instance_graph.txt_read("simple_iterative_tests.txt");
-			binary_read_vector("simple_iterative_tests_is_mock.txt", is_mock);
+			instance_graph.txt_read("/app/results/simple_iterative_tests.txt");
+			binary_read_vector("/app/results/simple_iterative_tests_is_mock.txt", is_mock);
 		}
 
 		//instance_graph.print();
@@ -645,10 +645,10 @@ void test_GST() {
 				add_vertex_groups(instance_graph, group_num);
 			}
 			instance_graph = graph_v_of_v_update_vertexIDs_by_degrees_large_to_small(instance_graph); // sort vertices
-			instance_graph.txt_save("simple_iterative_tests.txt");
+			instance_graph.txt_save("/app/results/simple_iterative_tests.txt");
 		}
 		else {
-			instance_graph.txt_read("simple_iterative_tests.txt");
+			instance_graph.txt_read("/app/results/simple_iterative_tests.txt");
 		}
 
 		int use_algo = 2;
