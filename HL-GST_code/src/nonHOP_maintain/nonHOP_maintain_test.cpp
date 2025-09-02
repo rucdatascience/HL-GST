@@ -334,12 +334,12 @@ void test_PLL() {
 				is_mock[V + j] = true;
 			}
 			instance_graph = graph_v_of_v_update_vertexIDs_by_degrees_large_to_small_mock(instance_graph, is_mock); // sort vertices
-			instance_graph.txt_save("/app/results/simple_iterative_tests.txt");
-			binary_save_vector("/app/results/simple_iterative_tests_is_mock.txt", is_mock);
+			instance_graph.txt_save("simple_iterative_tests.txt");
+			binary_save_vector("simple_iterative_tests_is_mock.txt", is_mock);
 		}
 		else {
-			instance_graph.txt_read("/app/results/simple_iterative_tests.txt");
-			binary_read_vector("/app/results/simple_iterative_tests_is_mock.txt", is_mock);
+			instance_graph.txt_read("simple_iterative_tests.txt");
+			binary_read_vector("simple_iterative_tests_is_mock.txt", is_mock);
 		}
 
 		auto begin = std::chrono::high_resolution_clock::now();
@@ -403,7 +403,7 @@ void example_before_maintain_with_2M_prune(){
 
 	/*input and output; below is for generating random new graph, or read saved graph*/
 	graph_v_of_v<int> instance_graph;
-	instance_graph.txt_read("/app/results/simple_iterative_tests.txt"); // please copy this file to the compiling path
+	instance_graph.txt_read("simple_iterative_tests.txt"); // please copy this file to the compiling path
 	//binary_read_vector("simple_iterative_tests_is_mock.txt", is_mock);
 
 	PLL(instance_graph, mm);
@@ -428,7 +428,7 @@ void example_before_maintain_without_2M_prune()
 
 	/*input and output; below is for generating random new graph, or read saved graph*/
 	graph_v_of_v<int> instance_graph;
-	instance_graph.txt_read("/app/results/simple_iterative_tests.txt"); // please copy this file to the compiling path
+	instance_graph.txt_read("simple_iterative_tests.txt"); // please copy this file to the compiling path
 	//binary_read_vector("simple_iterative_tests_is_mock.txt", is_mock);
 
 	PLL(instance_graph, mm);
@@ -457,7 +457,7 @@ void example_after_batch_deletion()
 
 	/*input and output; below is for generating random new graph, or read saved graph*/
 	graph_v_of_v<int> instance_graph;
-	instance_graph.txt_read("/app/results/simple_iterative_tests.txt");
+	instance_graph.txt_read("simple_iterative_tests.txt");
 	//binary_read_vector("simple_iterative_tests_is_mock.txt", is_mock);
 
 	PLL(instance_graph, mm);
@@ -531,7 +531,7 @@ void example_after_batch_insertion()
 	mm.thread_num = 1;
 
 	graph_v_of_v<int> instance_graph;
-	instance_graph.txt_read("/app/results/simple_iterative_tests.txt");
+	instance_graph.txt_read("simple_iterative_tests.txt");
 	//binary_read_vector("simple_iterative_tests_is_mock.txt", is_mock);
 
 	PLL(instance_graph, mm);
