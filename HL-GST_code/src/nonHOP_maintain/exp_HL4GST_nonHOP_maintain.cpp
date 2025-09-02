@@ -264,7 +264,7 @@ void exp_element_nonHOP(string data_name, string file_name, int iteration_num)
 	outputFile.precision(8);
 	outputFile.setf(ios::fixed);
 	outputFile.setf(ios::showpoint);
-	string save_name = "results/expHL4GST_nonHOP_maintain_" + file_name + "_" + ec_type_name + ".csv";
+	string save_name = "expHL4GST_nonHOP_maintain_" + file_name + "_" + ec_type_name + ".csv";
 	cout << "start indexing " << save_name << endl;
 	outputFile.open(save_name);
 

@@ -102,7 +102,7 @@ Once the image is built, a container can be launched to compile C++ source codes
     ```bash
     sudo docker run -it --rm \
       -v /path/to/your/HL-GST/HL-GST_data:/app/HL-GST_data \
-      -v /path/to/your/HL-GST/results:/app/results \
+      -v /path/to/your/HL-GST/results:/app/HL-GST_code/results \
       hlgst-experiment
     ```
 

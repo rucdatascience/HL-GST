@@ -102,7 +102,7 @@ void exp_element_nonHOP_static(string data_name, int ec_type, int thread_num, lo
 	outputFile.precision(8);
 	outputFile.setf(ios::fixed);
 	outputFile.setf(ios::showpoint);
-	string save_name = "results/expHL4GST_nonHOP_" + data_name + "_" + ec_type_name + "_thread_num_" + to_string(thread_num) + ".csv";
+	string save_name = "expHL4GST_nonHOP_" + data_name + "_" + ec_type_name + "_thread_num_" + to_string(thread_num) + ".csv";
 	cout << "start indexing " << save_name << endl;
 	outputFile.open(save_name);
 
@@ -543,7 +543,7 @@ void exp_element_HOP_static(string data_name, int ec_type, int thread_num, long 
 		outputFile.precision(8);
 		outputFile.setf(ios::fixed);
 		outputFile.setf(ios::showpoint);
-		string save_name = "results/expHL4GST_HOP_" + data_name + "_" + ec_type_name + "_K" + to_string(K) + ".csv";
+		string save_name = "expHL4GST_HOP_" + data_name + "_" + ec_type_name + "_K" + to_string(K) + ".csv";
 		cout << "start indexing " << save_name << endl;
 		outputFile.open(save_name);
 
@@ -884,7 +884,7 @@ void print_group_sizes_element(string data_name, int ec_type) {
 	outputFile.precision(8);
 	outputFile.setf(ios::fixed);
 	outputFile.setf(ios::showpoint);
-	string save_name = "results/group_sizes_" + data_name + ".txt";
+	string save_name = "group_sizes_" + data_name + ".txt";
 	outputFile.open(save_name);
 
 	for(int i=0;i<V;i++){
