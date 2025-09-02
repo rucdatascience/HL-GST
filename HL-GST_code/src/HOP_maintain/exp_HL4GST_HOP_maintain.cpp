@@ -204,7 +204,7 @@ void exp_element_HOP(string data_name, string file_name, int thread_num, int ite
 	outputFile.precision(8);
 	outputFile.setf(ios::fixed);
 	outputFile.setf(ios::showpoint);
-	string save_name = "expHL4GST_HOP_maintain_" + file_name + "_" + ec_type_name + "_thread_num_" + to_string(thread_num) + ".csv";
+	string save_name = "results/expHL4GST_HOP_maintain_" + file_name + "_" + ec_type_name + "_thread_num_" + to_string(thread_num) + ".csv";
 	cout << "start indexing " << save_name << endl;
 	outputFile.open(save_name);
 
